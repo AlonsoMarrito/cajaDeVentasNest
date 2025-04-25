@@ -1,0 +1,71 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "./node_modules/@prisma/client"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model account_s {
+  id_account              Int        @id
+  id_user_account         Int?
+  e_mail                  String?    @db.VarChar
+  password_               String?    @db.VarChar
+  name_company            String?    @db.VarChar
+  general_valance_account Float?
+  user_s                  user_s?    @relation(fields: [id_user_account], references: [id_user], onDelete: NoAction, onUpdate: NoAction)
+  credit_s                credit_s[]
+  sale_s                  sale_s[]
+}
+
+model client_s {
+  id_client             Int        @id
+  id_account_client     Int?
+  address_client        String?    @db.VarChar
+  name_client           String?    @db.VarChar
+  valance_credit_client Float?
+  credit_s              credit_s[]
+  sale_s                sale_s[]
+}
+
+model credit_s {
+  id_credit                 Int         @id
+  id_account_credit         Int?
+  id_client_credit          Int?
+  price_to_sale             Float?
+  price_to_real_product     Float?
+  product_name              String?     @db.VarChar
+  total_payment_acumulation Float?
+  credit_state              String?     @db.VarChar
+  account_s                 account_s?  @relation(fields: [id_account_credit], references: [id_account], onDelete: NoAction, onUpdate: NoAction)
+  client_s                  client_s?   @relation(fields: [id_client_credit], references: [id_client], onDelete: NoAction, onUpdate: NoAction)
+  payment_s                 payment_s[]
+}
+
+model payment_s {
+  id_payment        Int       @id
+  id_credit_payment Int?
+  payment           Float?
+  credit_s          credit_s? @relation(fields: [id_credit_payment], references: [id_credit], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model sale_s {
+  id_sale               Int        @id
+  id_account_sale       Int?
+  id_client_sale        Int?
+  price_to_sale         Float?
+  price_to_real_product Float?
+  product_name          String?    @db.VarChar
+  account_s             account_s? @relation(fields: [id_account_sale], references: [id_account], onDelete: NoAction, onUpdate: NoAction)
+  client_s              client_s?  @relation(fields: [id_client_sale], references: [id_client], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model user_s {
+  id_user          Int         @id
+  name_user        String?     @db.VarChar
+  first_last_name  String?     @db.VarChar
+  second_last_name String?     @db.VarChar
+  account_s        account_s[]
+}
