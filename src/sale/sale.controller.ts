@@ -73,6 +73,25 @@ export class SaleController {
   }
 
   /**
+   *this endpoint bring all sales by id_account_sale
+   *
+   * @param :id
+   * @returns json with all sales by id_account_sale
+   * @example {    
+        "id_sale": 1,
+        "id_account_sale": 1,
+        "id_client_sale": 1,
+        "price_to_sale": 1300,
+        "price_to_real_product": 600,
+        "product_name": "Sabanas"
+      },
+   */
+  @Get('allByIdClient/:id')
+  findAllByIdClient(@Param('id') id: string) {
+    return this.saleService.findAllByIdClient(+id);
+  }
+
+  /**
    *this endpoint bring one (first) sales that query found by id_account_sale
    *
    * @param :id

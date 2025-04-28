@@ -80,6 +80,24 @@ export class SaleService {
   }
 
   /**
+   * this endpoint bring all sales by id param
+   * 
+   * @param :id 
+   * @returns json with all sales by id_account_sale
+   * @example {
+        "id_sale": 1,
+        "id_account_sale": 1,
+        "id_client_sale": 1,
+        "price_to_sale": 1300,
+        "price_to_real_product": 600,
+        "product_name": "Sabanas"
+      },
+   */
+  async findAllByIdClient(id: number) {
+    return this.prisma.sale_s.findMany({ where: { id_client_sale: id } });
+  }
+
+  /**
    * this endpoint bring one sale by id param
    * 
    * @param :id 
